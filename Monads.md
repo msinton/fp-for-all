@@ -1,7 +1,7 @@
 ## Monads
 
 ### Definition using flatMap
-In simple terms a monad must have `flatMap` (akka `bind`) and `unit` (akka `pure`), where unit puts a value into the context of a Monad 
+In simple terms a monad must have `flatMap` (aka `bind`) and `unit` (aka `pure`), where unit puts a value into the context of a Monad 
 and flatMap is a way to transform a value in the monad context by returning another Monad (of the same type).
 
     def flatMap(m: F[A], f: A => F[B]): F[B]
@@ -24,7 +24,7 @@ Alternatively, you can say that a Monad must have `unit`, `map` and `flatten`, w
 
 ### Examples of Monads:
 
-- Option akka Maybe
+- Option aka Maybe
 - List
 - ID
 - Either
