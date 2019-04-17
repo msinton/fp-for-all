@@ -19,3 +19,8 @@ In short, you have a Monoid if you have an Associative binary operation (+) and 
     2 * (3 * 4) = (2 * 3) * 4
 
   Identity (1): 2 * 1 = 2
+
+
+### Semigroup
+
+A semigroup is a monoid but without requiring the Identity element.
