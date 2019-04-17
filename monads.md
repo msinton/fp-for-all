@@ -38,3 +38,5 @@ https://stackoverflow.com/questions/27454798/is-future-in-scala-a-monad
 
 [from 5:35]
 https://www.youtube.com/watch?v=x3GLwl1FxcA&feature=youtu.be&t=3m9s
+
+(Test your understanding of Monads (using the scala FP library cats))[https://www.scala-exercises.org/cats/monad]
