@@ -1,4 +1,4 @@
-# Type Class
+# Typeclass
 
 Consider the problem where you want multiple classes with related behaviour. 
 
@@ -55,7 +55,7 @@ A type summarizes the common features of a set of objects with the same characte
 
 A class represents an implementation of the type. It is a concrete data structure and collection of methods.
 
-### What are type classes for?
+### What are typeclasses for?
 
 Main benefits:
  - extensible
@@ -89,7 +89,9 @@ Why will this fail?
 As in the previous example, it is impractical/impossible to add functionality for 
 everything that your data might need. 
 
-### What is a type class?
+### What is a typeclass?
+
+Not a class! (The term comes from Haskell where "Class" does not exist in the same way as Java)
 
 Examples...
 
@@ -111,7 +113,7 @@ We write sort **once** for a List of things that have Ordering
     
 ### constraints
 
-Type classes allow you to ask for the minimum functionality required by a method
+Typeclasses allow you to ask for the minimum functionality required by a method
 
 In the example `contains` only `Eq` is required.
 In our silly example you might want something that can defecate and makeNoise,
