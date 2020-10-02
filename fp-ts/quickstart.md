@@ -96,7 +96,7 @@ pipe(Either.right(2), map(square)) // right(4)
 
 pipe(Task.of(3), map(square)) // task(9)
 
-pipe({'value': 4}, map(square)) // {'value': 16}
+pipe({value: 4}, map(square)) // {value: 16}
 ```
 
 📝 In each example, each container requires a different `map` function that is imported from the corresponding container lib.
@@ -105,7 +105,7 @@ import * as E from 'fp-ts/lib/Either'
 import * as R from 'fp-ts/lib/Record'
 
 pipe(Either.right(2), E.map(square))
-pipe({'value': 4}, R.map(square))
+pipe({value: 4}, R.map(square))
 ```
 
 ### chain
