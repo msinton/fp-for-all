@@ -10,7 +10,7 @@ For now, we dive into a more or less cheat-sheet guide to getting started.
 
 Use pipe to do one thing after another
 
-instead of 
+instead of
 
 ```
 const x = 1
@@ -19,23 +19,27 @@ const z = multiply(y, 5) // z = 15
 ```
 
 Use `pipe` like so:
+
 ```
 const z = pipe(
   1,
   add(2),
-  multiply(5) 
+  multiply(5)
 ) // z = 15
 ```
 
-✨ we gain readability 
+✨ we gain readability
+
 ✨ reduce "leaky scope"
+
 ✨ type inference for generic functions (not demonstrated here)
 
 ### flow
 
 Use flow in a similar way to pipe, except forget about that initial data - we'll deal with it later!
 
-given 
+given
+
 ```
 const add = (x: number) => (y: number) => {
   return x + y
@@ -49,15 +53,17 @@ const subtract = (x: number) => (y: number) => {
 ```
 
 instead of
+
 ```
 // ((1 + 2) * 3) - 5)
-subtract(multiply(add(1)(2), 3), 5) 
+subtract(multiply(add(1)(2), 3), 5)
 
 // ((1 + 123) * 3) - 5)
-subtract(multiply(add(1)(123), 3), 5) 
+subtract(multiply(add(1)(123), 3), 5)
 ```
 
 Use `flow` like so:
+
 ```
 const baseFormula = flow(add(1), multiply(3), subtract(5))
 
@@ -69,14 +75,13 @@ baseFormula(123)
 
 ✨ we gain re-usablilty and readability
 
-
 ### map
 
 An abstraction for transforming the contents.
 
 You will likely know this for arrays/lists
 
-``` 
+```
 [1, 2, 3].map(x => x * x) // [1, 4, 9]
 
 // equivalently
@@ -101,7 +106,7 @@ pipe(Task.of(3), map(square)) // task(9)
 pipe({'value': 4}, map(square)) // {'value': 16}
 ```
 
-📝 In each example, each container requires a different `map` function that is imported from the corresponding container lib. 
+📝 In each example, each container requires a different `map` function that is imported from the corresponding container lib.
 
 ```
 import * as E from 'fp-ts/lib/Either'
@@ -133,17 +138,19 @@ Again, this applies to any container (that obeys certain rules)
 
 ```
 // Option
-const reciprocal = (x: number) => x === 0 ? none : some(1 / x) 
+const reciprocal = (x: number) => x === 0 ? none : some(1 / x)
 
 pipe(some(2), chain(reciprocal)) // some(0.5)
 pipe(some(0), chain(reciprocal)) // none
 
 // Either
-const reciprocal = (x: number) => 
-  x === 0 ? left('can't divide by zero 🤦‍♀️') : right(1 / x) 
+const reciprocal = (x: number) =>
+  x === 0 ? left('can't divide by zero 🤦‍♀️') : right(1 / x)
 
 pipe(right(2), chain(reciprocal)) // right(0.5)
 pipe(right(0), chain(reciprocal)) // left('can't divide by zero 🤦‍♀️')
 ```
 
 ### sequence
+
+TODO
