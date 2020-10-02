@@ -11,16 +11,14 @@ For now, we dive into a more or less cheat-sheet guide to getting started.
 Use pipe to do one thing after another
 
 instead of
-
-```
+```ts
 const x = 1
 const y = add(x, 2)
 const z = multiply(y, 5) // z = 15
 ```
 
 Use `pipe` like so:
-
-```
+```ts
 const z = pipe(
   1,
   add(2),
@@ -39,8 +37,7 @@ const z = pipe(
 Use flow in a similar way to pipe, except forget about that initial data - we'll deal with it later!
 
 given
-
-```
+```ts
 const add = (x: number) => (y: number) => {
   return x + y
 }
@@ -53,8 +50,7 @@ const subtract = (x: number) => (y: number) => {
 ```
 
 instead of
-
-```
+```ts
 // ((1 + 2) * 3) - 5)
 subtract(multiply(add(1)(2), 3), 5)
 
@@ -63,8 +59,7 @@ subtract(multiply(add(1)(123), 3), 5)
 ```
 
 Use `flow` like so:
-
-```
+```ts
 const baseFormula = flow(add(1), multiply(3), subtract(5))
 
 // ((1 + 2) * 3) - 5)
@@ -73,15 +68,14 @@ baseFormula(2)
 baseFormula(123)
 ```
 
-✨ we gain re-usablilty and readability
+✨ we gain reusablilty and readability
 
 ### map
 
 An abstraction for transforming the contents.
 
 You will likely know this for arrays/lists
-
-```
+```ts
 [1, 2, 3].map(x => x * x) // [1, 4, 9]
 
 // equivalently
@@ -97,8 +91,7 @@ The same applies to other "containers"
 Think of `some` as a list of 1
 
 But don't worry what the containers are for just yet, here are more examples:
-
-```
+```ts
 pipe(Either.right(2), map(square)) // right(4)
 
 pipe(Task.of(3), map(square)) // task(9)
@@ -107,8 +100,7 @@ pipe({'value': 4}, map(square)) // {'value': 16}
 ```
 
 📝 In each example, each container requires a different `map` function that is imported from the corresponding container lib.
-
-```
+```ts
 import * as E from 'fp-ts/lib/Either'
 import * as R from 'fp-ts/lib/Record'
 
@@ -121,22 +113,19 @@ pipe({'value': 4}, R.map(square))
 This is similar to `map`, the difference is that the function you supply must return a value that is also wrapped by a container.
 
 This avoids nesting, take array as an example.
-
-```
+```ts
 pipe([1, 2, 3], map(x => [x, x * x]))
 > [[1, 1], [2, 4], [3, 9]]
 ```
 
 but we want a flat list, so use chain:
-
-```
+```ts
 pipe([1, 2, 3], chain(x => [x, x * x]))
 > [1, 1, 2, 4, 3, 9]
 ```
 
 Again, this applies to any container (that obeys certain rules)
-
-```
+```ts
 // Option
 const reciprocal = (x: number) => x === 0 ? none : some(1 / x)
 
