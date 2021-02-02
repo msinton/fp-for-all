@@ -210,7 +210,7 @@ pipe(
 ```ts
 // Either
 pipe(
-  sequenceS(either)({ x: right(1), y: right(2), z: right(3)]),
+  sequenceS(either)({ x: right(1), y: right(2), z: right(3) }),
   map(({x, y, z}) => x + y + z)
 ) // right(6)
 ```
