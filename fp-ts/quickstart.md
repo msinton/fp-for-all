@@ -4,9 +4,9 @@ Functional programming is an amazingly rich and fascinating subject. But you can
 
 For now, we dive into a more or less cheat-sheet guide to getting started.
 
-## Core stuff
+# Core stuff
 
-### pipe
+## pipe
 
 Use pipe to do one thing after another
 
@@ -32,7 +32,7 @@ const z = pipe(
 
 ✨ type inference for generic functions (not demonstrated here)
 
-### flow
+## flow
 
 Use flow in a similar way to pipe, except forget about that initial data - we'll deal with it later!
 
@@ -70,7 +70,7 @@ baseFormula(123)
 
 ✨ we gain reusablilty and readability
 
-### map
+## map
 
 An abstraction for transforming the contents.
 
@@ -92,10 +92,11 @@ Think of `some` as a list of 1
 
 But don't worry what the containers are for just yet, here are more examples:
 ```ts
+// Either
 pipe(Either.right(2), map(square)) // right(4)
-
+// Task
 pipe(Task.of(3), map(square)) // task(9)
-
+// Record
 pipe({value: 4}, map(square)) // {value: 16}
 ```
 
@@ -108,7 +109,7 @@ pipe(Either.right(2), E.map(square))
 pipe({value: 4}, R.map(square))
 ```
 
-### chain
+## chain
 
 This is similar to `map`, the difference is that the function you supply must return a value that is also wrapped by a container.
 
@@ -140,6 +141,99 @@ pipe(right(2), chain(reciprocal)) // right(0.5)
 pipe(right(0), chain(reciprocal)) // left('can't divide by zero 🤦‍♀️')
 ```
 
-### sequence
+## sequence
 
-TODO
+For taking multiple "containers" and combining them together into a single "container".
+
+In other words, transform `[container<A>, container<B>, container<C>]` to `container<[A, B, C]>`
+
+Runs the "effect" of the containers one by one (**sequentially**).
+
+Comes in 2 flavours `sequenceT` and `sequenceS`.
+
+### sequenceT
+
+```ts
+// Option
+pipe(
+  sequenceT(option)([some(1), some(2)]),
+  map(([value1, value2]) => value1 + value2) 
+) // some(3)
+
+pipe(
+  sequenceT(option)([some(1), none, some(3)]),
+  map(([value1, value2, value3]) => value1 + value2 + value3) 
+) // none
+```
+
+```ts
+// Either
+pipe(
+  sequenceT(either)([right(1), right(2)]),
+  map(([value1, value2]) => value1 + value2) 
+) // right(3)
+
+pipe(
+  sequenceT(either)([right(1), left('not a number'), right(3)]),
+  map(([value1, value2, value3]) => value1 + value2 + value3) 
+) // left('not a number')
+```
+
+### sequenceS
+
+`sequenceS` is similar to `sequenceT` except that we can declare our containers within a **structure**.
+
+```ts
+// Option
+pipe(
+  sequenceT(option)({ x: some(1), y: some(2) }),
+  map(({x, y}) => x + y) 
+) // some(3)
+```
+
+```ts
+// Either
+pipe(
+  sequenceT(either)({ x: right(1), y: right(2), z: right(3)]),
+  map(({x, y, z}) => x + y + z) 
+) // right(6)
+```
+
+## traverse
+
+Like `sequence`, traverse also runs the effect of multiple containers together, sequentially.
+
+Traverse also allows you to transform each value with a function. 
+
+Therefore `traverse` is equivalent to `sequence` followed by `map`.
+
+given
+```ts
+const multiplyBy2ThenAddThree = (x: Number) => 2 * x + 3
+```
+
+```ts
+// Option
+pipe(
+  [some(1), some(2)],
+  traverse(option)(multiplyBy2ThenAddThree)
+) // some([5, 7])
+
+pipe(
+  [some(1), none, some(3)],
+  traverse(option)(multiplyBy2ThenAddThree)
+) // none
+```
+
+```ts
+// Either
+pipe(
+  [right(1), right(2)],
+  traverse(either)(multiplyBy2ThenAddThree)
+) // right([5, 7])
+
+pipe(
+  [some(1), left('not a number'), some(3)],
+  traverse(either)(multiplyBy2ThenAddThree)
+) // left('not a number')
+```
